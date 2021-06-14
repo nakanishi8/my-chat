@@ -10,6 +10,11 @@
       "StackName": "amplify-mychat-dev-85158",
       "StackId": "arn:aws:cloudformation:ap-northeast-1:603085981884:stack/amplify-mychat-dev-85158/58ef7b30-cca2-11eb-8226-0a5845c4397f",
       "AmplifyAppId": "d3quhl4yrxpu0b"
+    },
+    "categories": {
+      "auth": {
+        "mychat15707868": {}
+      }
     }
   }
 }
