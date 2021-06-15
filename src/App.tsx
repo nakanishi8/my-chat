@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import Amplify, { API, graphqlOperation } from 'aws-amplify'
+import Amplify, { API, graphqlOperation, PubSub, Auth } from 'aws-amplify'
+import { AWSIoTProvider } from '@aws-amplify/pubsub'
+import { MqttOverWSProvider } from "@aws-amplify/pubsub/lib/Providers";
 import { withAuthenticator } from '@aws-amplify/ui-react'
 import { GraphQLResult } from '@aws-amplify/api-graphql'
 import { createTodo } from './graphql/mutations'
@@ -11,6 +13,23 @@ import './App.css'
 
 import awsExports from './aws-exports'
 Amplify.configure(awsExports)
+
+Auth.currentCredentials().then((info) => {
+  const cognitoIdentityId = info.identityId
+  console.info(cognitoIdentityId)
+})
+
+// Apply plugin with configuration
+Amplify.addPluggable(
+  new AWSIoTProvider({
+    aws_pubsub_region: 'ap-northeast-1',
+    aws_pubsub_endpoint: 'wss://a26q3a976c9tuc-ats.iot.ap-northeast-1.amazonaws.com/mqtt',
+  })
+)
+
+Amplify.addPluggable(new MqttOverWSProvider({
+  aws_pubsub_endpoint: 'wss://iot.eclipse.org:443/mqtt',
+}));
 
 const initialState = { name: '', description: '' }
 
